@@ -8,5 +8,7 @@ data class Post(
     val canEdit: Boolean = true,
     val friendsOnly: Boolean = false,
     val markedIsAds: Boolean = false,
-    var likes: Likes? = null
+    val likes: Likes? = null,
+    val comments: Comments? = null,
+    val attachments: Array<Attachment>? = null
 )
