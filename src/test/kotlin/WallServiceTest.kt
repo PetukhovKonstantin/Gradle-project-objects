@@ -32,4 +32,15 @@ class WallServiceTest {
         val result = WallService.update(Post(3, 1, 1, "Test1"))
         assertEquals(false, result)
     }
+
+    @Test
+    fun testAddWithAttachments() {
+        var attachments = emptyArray<Attachment>()
+        val attachment1 = StickerAttachment(Sticker(1, 1, "https://sticks.com/404", "https://anim.sticks.com/404"))
+        attachments += attachment1
+        val attachment2 = PhotoAttachment(Photo(1, 1, 1, 1, "Photo 1", 720, 480))
+        attachments += attachment2
+        val post = WallService.add(Post(999, 1,1, "test", attachments = attachments))
+        assertEquals("Фото", post.attachments?.get(1)?.type)
+    }
 }
