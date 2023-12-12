@@ -1,12 +1,15 @@
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 class WallServiceTest {
 
     @Before
     fun clearBeforeTest() {
         WallService.clear()
+        WallService.clearComments()
     }
 
     @Test
@@ -42,5 +45,17 @@ class WallServiceTest {
         attachments += attachment2
         val post = WallService.add(Post(999, 1,1, "test", attachments = attachments))
         assertEquals("Фото", post.attachments?.get(1)?.type)
+    }
+
+    @Test(expected = PostNotFoundException::class)
+    fun createCommentShouldThrow() {
+        WallService.createComment(1, Comment(1, 1, 1, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC), "First comment"))
+    }
+
+    @Test()
+    fun createCommentSuccessfully() {
+        val post = WallService.add(Post(1, 1,1, "test"))
+        val comment = WallService.createComment(1, Comment(1, 1, 1, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC), "First comment"))
+        assertEquals(1, comment.id)
     }
 }
