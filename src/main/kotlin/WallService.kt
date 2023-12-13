@@ -32,7 +32,7 @@ object WallService {
     fun createComment(postId: Int, comment: Comment): Comment {
         val post = posts.find { it.id == postId } ?: throw PostNotFoundException("Post with id $postId not found")
         update(post.copy(comments = if (post.comments == null) Comments(1) else (post.comments.copy(count =+ 1))))
-        comments += comment.copy(id = ++lastIdComment, postId = postId)
+        comments += comment.copy(id = ++lastIdComment, parentId = postId)
         return comment
     }
 }
