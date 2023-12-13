@@ -109,7 +109,11 @@ class NotesServiceTest {
         val note = NotesService.add(Note(1, "Test", "Test 1"))
         NotesService.createComment(note.id, Comment(1, note.id, 1, 1, "Test"))
         NotesService.createComment(note.id, Comment(2, note.id, 1, 1, "Test 2"))
-        Assert.assertEquals(2, NotesService.getComments().count())
+
+        val note2 = NotesService.add(Note(1, "Test", "Test 2"))
+        NotesService.createComment(note2.id, Comment(3, note.id, 1, 1, "Test 3"))
+
+        Assert.assertEquals(2, NotesService.getComments(note.id).count())
     }
 
     @Test

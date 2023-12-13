@@ -75,7 +75,7 @@ object NotesService {
 
     fun getById(noteId: Int): Note = notes.find { it.id == noteId } ?: throw NoteNotFoundException(noteId)
 
-    fun getComments(): List<Comment> = comments.filter { !it.isDeleted };
+    fun getComments(noteId: Int): List<Comment> = comments.filter { !it.isDeleted && it.parentId == noteId };
 
     fun getCommentById(commentId: Int): Comment = comments.find { it.id == commentId } ?: throw CommentNotFoundException(commentId)
 
