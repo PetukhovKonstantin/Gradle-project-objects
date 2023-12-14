@@ -44,7 +44,7 @@ object ChatService {
     fun deleteMessage(msgId: Int): Boolean {
         val msg = getMessageById(msgId)
         messages.remove(msg)
-        if (messages.filter { it.chatId == msg.chatId }.count() == 0) delete(msg.chatId)
+        if (messages.none { it.chatId == msg.chatId }) delete(msg.chatId)
         return true
     }
 
@@ -56,7 +56,7 @@ object ChatService {
 
     fun getLastMessageFromChats(): String = "Последние сообщения чатов:\n" +
             chats.asSequence().mapIndexed { index, chat -> "${index + 1}: ${chat.title} - ${getLastMessage(chat.id).text}" }.joinToString(separator = "\n")
-
+            
     fun getMessagesByChat(chatId: Int): String {
         val msgsList = messages.asSequence().filter { it.chatId == chatId }.sortedBy { it.date }
         msgsList.forEach { msg -> editMessage(msg.copy(isRead = true)) }
