@@ -104,6 +104,14 @@ class ChatServiceTest {
     }
 
     @Test
+    fun testGetMessagesByChatFriendIdAndCountMessages() {
+        ChatService.add(DirectChat(1, 5, "Test"), Message(1, 1, "TestMsg", isRead = false))
+        ChatService.createMessage(1, Message(4, 1, "TestMsg2", isRead = false))
+        val result = ChatService.getMessagesByChat(5, 1)
+        Assert.assertEquals("Список сообщений (кол-во: 1) для чата Test:\n1: TestMsg", result)
+    }
+
+    @Test
     fun testGetLastMessage() {
         ChatService.add(DirectChat(1, 1, "Test"), Message(1, 1, "Test", isRead = true))
         ChatService.createMessage(1, Message(4, 1, "TestMsg2", isRead = false))
