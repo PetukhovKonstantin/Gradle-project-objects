@@ -71,11 +71,11 @@ object NotesService {
         return true
     }
 
-    fun get(): List<Note> = notes.filter { !it.isDeleted };
+    fun get(): List<Note> = notes.filter { !it.isDeleted }
 
     fun getById(noteId: Int): Note = notes.find { it.id == noteId } ?: throw NoteNotFoundException(noteId)
 
-    fun getComments(noteId: Int): List<Comment> = comments.filter { !it.isDeleted && it.parentId == noteId };
+    fun getComments(noteId: Int): List<Comment> = comments.filter { !it.isDeleted && it.parentId == noteId }
 
     fun getCommentById(commentId: Int): Comment = comments.find { it.id == commentId } ?: throw CommentNotFoundException(commentId)
 
