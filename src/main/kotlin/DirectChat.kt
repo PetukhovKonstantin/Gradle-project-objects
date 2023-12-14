@@ -1,4 +1,4 @@
-class ChatNotFoundException(chatId: Int) : RuntimeException("Chat with id $chatId not found")
+class ChatNotFoundException(message: String) : RuntimeException(message)
 
 data class DirectChat(
     val id: Int,
