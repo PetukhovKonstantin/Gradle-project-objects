@@ -37,23 +37,23 @@ object ChatService {
     fun deleteMessage(msgId: Int): Boolean {
         val msg = getMessageById(msgId)
         messages.remove(msg)
-        if (messages.filter { it.chatId == msg.chatId }.count() == 0) delete(msg.chatId)
+        if (messages.none { it.chatId == msg.chatId }) delete(msg.chatId)
         return true
     }
 
     fun getMessageById(msgId: Int): Message = messages.find { it.id == msgId } ?: throw MessageNotFoundException(msgId)
 
-    fun getUnreadChatsCount(): Int =  messages.filter { !it.isRead }.map { it.chatId }.toSet().count()
+    fun getUnreadChatsCount(): Int =  messages.asSequence().filter { !it.isRead }.map { it.chatId }.toSet().count()
 
-    fun getChats(): String = "Список чатов:\n${chats.mapIndexed { index, chat -> "${index + 1}: ${chat.title}" }.joinToString(separator = "\n")}"
+    fun getChats(): String = "Список чатов:\n${chats.asSequence().mapIndexed { index, chat -> "${index + 1}: ${chat.title}" }.joinToString(separator = "\n")}"
 
     fun getLastMessageFromChats(): String = "Последние сообщения чатов:\n" +
-            chats.mapIndexed { index, chat -> "${index + 1}: ${chat.title} - ${getLastMessage(chat.id).text}" }.joinToString(separator = "\n")
+            chats.asSequence().mapIndexed { index, chat -> "${index + 1}: ${chat.title} - ${getLastMessage(chat.id).text}" }.joinToString(separator = "\n")
 
     fun getMessagesByChat(chatId: Int): String = "Список сообщений для чата ${getById(chatId).title}:\n" +
-            messages.filter { it.chatId == chatId }.sortedBy { it.date }.mapIndexed { index, msg -> "${index + 1}: ${msg.text}" }.joinToString(separator = "\n")
+            messages.asSequence().filter { it.chatId == chatId }.sortedBy { it.date }.mapIndexed { index, msg -> "${index + 1}: ${msg.text}" }.joinToString(separator = "\n")
 
-    fun getLastMessage(chatId: Int): Message = messages.filter { it.chatId == chatId }.sortedBy { it.date }.last()
+    fun getLastMessage(chatId: Int): Message = messages.asSequence().filter { it.chatId == chatId }.sortedBy { it.date }.last()
 
     fun clear() {
         chats.clear()
